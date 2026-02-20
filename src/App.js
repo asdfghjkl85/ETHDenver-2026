@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './App.css';
-import { useWeb3 } from "./hooks/useWeb3";
-import { useAIRecommendations, useFoodProviders } from "./hooks/useAIAgent";
+import { useWeb3 } from "./hooks/useWeb3.js";
+import { useAIRecommendations, useFoodProviders } from "./hooks/useAIAgent.js";
 
 function App() {
   const { account, signer, isConnected, connectWallet, error: walletError } = useWeb3();

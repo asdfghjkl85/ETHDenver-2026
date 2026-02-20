@@ -63,18 +63,25 @@ const foodProviders = {
  */
 async function generateGroceryRecommendations(userAddress, preferences = {}) {
   try {
-    // Get user's policy and balance
-    const policy = await vault.policyOf(userAddress);
-    const balance = await usdc.balanceOf(userAddress);
-
-    const mongoToDays = policy.monthlyCap / 30;
-    const weeklyBudget = policy.weeklyCap;
-    const txLimit = policy.perTxCap;
-
-    // Default preferences
+    // Default preferences (use provided budget or fallback)
     const diet = preferences.diet || "balanced"; // balanced, vegan, keto, etc.
-    const budget = preferences.budget || weeklyBudget;
+    const budget = preferences.budget || 100; // Default budget
     const household = preferences.householdSize || 1;
+
+    // Skip contract calls if vault address is placeholder (0x0000...)
+    let policy = null;
+    let balance = null;
+    
+    if (process.env.VAULT_ADDRESS !== '0x0000000000000000000000000000000000000000') {
+      try {
+        policy = await vault.policyOf(userAddress);
+        balance = await usdc.balanceOf(userAddress);
+      } catch (contractError) {
+        console.warn('⚠️  Could not fetch contract data:', contractError.message);
+        policy = null;
+        balance = null;
+      }
+    }
 
     // Generate recommendations based on AI logic
     const recommendations = [];
