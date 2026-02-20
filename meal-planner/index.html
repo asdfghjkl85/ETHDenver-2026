@@ -265,10 +265,13 @@
       if (!resultsSection) {
         resultsSection = document.createElement('div');
         resultsSection.id = 'mealPlanResults';
-        document.querySelector('.min-h-screen').insertBefore(
-          resultsSection,
-          document.querySelector('footer')
-        );
+        // Insert before footer, or append to body if footer doesn't exist
+        const footer = document.querySelector('footer');
+        if (footer && footer.parentNode) {
+          footer.parentNode.insertBefore(resultsSection, footer);
+        } else {
+          document.body.appendChild(resultsSection);
+        }
       }
 
       const recommendations = data.recommendations || [];
@@ -295,7 +298,7 @@
             </div>
             <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 border border-purple-200">
               <div class="text-sm text-gray-600 mb-1">Diet Type</div>
-              <div class="text-2xl font-bold text-purple-600 capitalize">${data.recommendations[0]?.diet || 'Balanced'}</div>
+              <div class="text-2xl font-bold text-purple-600 capitalize">${data.diet || 'Balanced'}</div>
               <div class="text-xs text-gray-500 mt-1">Personalized plan</div>
             </div>
             <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-6 border border-orange-200">

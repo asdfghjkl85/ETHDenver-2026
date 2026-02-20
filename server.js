@@ -167,12 +167,13 @@ async function generateGroceryRecommendations(userAddress, preferences = {}) {
     return {
       success: true,
       userAddress,
-      policy: {
+      diet,
+      policy: policy ? {
         monthlyCap: policy.monthlyCap.toString(),
         weeklyCap: policy.weeklyCap.toString(),
         perTxCap: policy.perTxCap.toString()
-      },
-      balance: balance.toString(),
+      } : null,
+      balance: balance ? balance.toString() : null,
       recommendations,
       summary: {
         totalCost,
