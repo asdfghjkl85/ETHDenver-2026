@@ -1,0 +1,22 @@
+{
+  "name": "groceryvault-agent",
+  "version": "1.0.0",
+  "description": "GroceryVault AI Agent Backend",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "ethers": "^6.7.1",
+    "axios": "^1.4.0"
+  },
+  "keywords": ["groceryvault", "ai", "agent", "blockchain"],
+  "author": "",
+  "license": "MIT"
+}
