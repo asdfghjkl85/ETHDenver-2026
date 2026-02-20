@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6998d672d277650421fc3118/6b5a981c2_logo.png" rel="icon" type="image/svg+xml">
+  <title>Plate & Palate</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="description" content="Your personalized meal planning companion. Effortlessly create delicious, budget-friendly meal plans tailored to your dietary needs and lifestyle.">
+  <style>
+    @keyframes badge-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .badge-spinner {
+      animation: badge-spin 1s linear infinite;
+    }
+    @keyframes base44-fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes base44-scale-in {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <div class="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
+      <div class="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
+        <div class="relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-teal-500/10"></div>
+          <div class="absolute top-0 right-0 w-96 h-96 bg-emerald-200 rounded-full blur-3xl opacity-30 -translate-y-1/2 translate-x-1/2"></div>
+          <div class="absolute bottom-0 left-0 w-96 h-96 bg-teal-200 rounded-full blur-3xl opacity-30 translate-y-1/2 -translate-x-1/2"></div>
+          
+          <div class="relative max-w-6xl mx-auto px-4 py-12 sm:py-16">
+            <!-- Header -->
+            <div class="text-center mb-10" style="opacity: 1; transform: none;">
+              <div class="flex items-center justify-center gap-2 mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-leaf w-8 h-8 text-emerald-500">
+                  <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                  <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+                </svg>
+                <h1 class="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Smart Meal Planner</h1>
+              </div>
+              <p class="text-gray-600 text-lg max-w-2xl mx-auto">Plan nutritious meals that fit your budget and dietary needs. Get personalized weekly plans with shopping links to save money.</p>
+            </div>
+
+            <!-- Main Form Card -->
+            <div class="max-w-lg mx-auto" style="opacity: 1;">
+              <div style="opacity: 1; transform: none;">
+                <div class="rounded-xl text-card-foreground border-0 shadow-2xl bg-white/80 backdrop-blur-sm">
+                  <div class="flex flex-col space-y-1.5 p-6 text-center pb-2">
+                    <div class="mx-auto w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-utensils w-8 h-8 text-white">
+                        <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path>
+                        <path d="M7 2v20"></path>
+                        <path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"></path>
+                      </svg>
+                    </div>
+                    <div class="tracking-tight text-2xl font-bold text-gray-800">Plan Your Meals</div>
+                    <div class="text-sm text-gray-500">Set your budget and dietary preferences to get personalized meal plans</div>
+                  </div>
+
+                  <div class="p-6 space-y-6 pt-4">
+                    <!-- Monthly Income -->
+                    <div class="space-y-2">
+                      <label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium text-gray-700 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign w-4 h-4 text-emerald-500">
+                          <line x1="12" x2="12" y1="2" y2="22"></line>
+                          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                        Monthly Income
+                      </label>
+                      <div class="relative">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">$</span>
+                        <input type="number" id="monthlyIncome" class="flex w-full border bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm pl-8 h-12 border-gray-200 focus:border-emerald-500 focus:ring-emerald-500 rounded-xl" placeholder="Enter your monthly income" value="">
+                      </div>
+                    </div>
+
+                    <!-- Budget Percentage Slider -->
+                    <div class="space-y-4">
+                      <label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium text-gray-700 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-percent w-4 h-4 text-emerald-500">
+                          <line x1="19" x2="5" y1="5" y2="19"></line>
+                          <circle cx="6.5" cy="6.5" r="2.5"></circle>
+                          <circle cx="17.5" cy="17.5" r="2.5"></circle>
+                        </svg>
+                        Food Budget Percentage: <span id="budgetPercentage" class="text-emerald-600 font-bold">12%</span>
+                      </label>
+                      <input type="range" id="budgetSlider" min="5" max="40" value="12" class="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                      <div class="flex justify-between text-xs text-gray-400">
+                        <span>5%</span>
+                        <span>Recommended: 10-15%</span>
+                        <span>40%</span>
+                      </div>
+                    </div>
+
+                    <!-- Dietary Preference -->
+                    <div class="space-y-2">
+                      <label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium text-gray-700 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-utensils w-4 h-4 text-emerald-500">
+                          <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path>
+                          <path d="M7 2v20"></path>
+                          <path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"></path>
+                        </svg>
+                        Dietary Preference
+                      </label>
+                      <select id="dietaryPreference" class="flex w-full items-center justify-between whitespace-nowrap border bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background focus:outline-none focus:ring-1 h-12 border-gray-200 focus:border-emerald-500 focus:ring-emerald-500 rounded-xl">
+                        <option>No Restrictions</option>
+                        <option>Vegetarian</option>
+                        <option>Vegan</option>
+                        <option>Gluten-Free</option>
+                        <option>Keto</option>
+                        <option>Paleo</option>
+                      </select>
+                    </div>
+
+                    <!-- Household Size -->
+                    <div class="space-y-2">
+                      <label class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm font-medium text-gray-700">Household Size</label>
+                      <select id="householdSize" class="flex w-full items-center justify-between whitespace-nowrap border bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background focus:outline-none focus:ring-1 h-12 border-gray-200 focus:border-emerald-500 focus:ring-emerald-500 rounded-xl">
+                        <option>1 person</option>
+                        <option>2 people</option>
+                        <option>3 people</option>
+                        <option>4 people</option>
+                        <option>5+ people</option>
+                      </select>
+                    </div>
+
+                    <!-- Generate Button -->
+                    <button id="generateButton" class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-primary/90 px-4 py-2 w-full h-14 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-semibold rounded-xl shadow-lg shadow-emerald-500/30 transition-all duration-300">
+                      <div class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles w-5 h-5">
+                          <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path>
+                          <path d="M20 3v4"></path>
+                          <path d="M22 5h-4"></path>
+                          <path d="M4 17v2"></path>
+                          <path d="M5 18H3"></path>
+                        </svg>
+                        Generate Meal Plan
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="border-t border-gray-100 bg-white/50 backdrop-blur-sm">
+          <div class="max-w-6xl mx-auto px-4 py-6">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+              <p>© 2026 Smart Meal Planner. Eat well, spend smart.</p>
+              <div class="flex items-center gap-4">
+                <span class="flex items-center gap-1">🥗 Healthy</span>
+                <span class="flex items-center gap-1">💰 Budget-Friendly</span>
+                <span class="flex items-center gap-1">🌱 Sustainable</span>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Frontend-only functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const budgetSlider = document.getElementById('budgetSlider');
+      const budgetPercentage = document.getElementById('budgetPercentage');
+      const generateButton = document.getElementById('generateButton');
+
+      // Update budget percentage display
+      if (budgetSlider && budgetPercentage) {
+        budgetSlider.addEventListener('input', function() {
+          budgetPercentage.textContent = this.value + '%';
+        });
+      }
+
+      // Generate meal plan button functionality
+      if (generateButton) {
+        generateButton.addEventListener('click', function() {
+          const income = document.getElementById('monthlyIncome').value;
+          const budget = budgetSlider.value;
+          const dietary = document.getElementById('dietaryPreference').value;
+          const household = document.getElementById('householdSize').value;
+
+          if (!income) {
+            alert('Please enter your monthly income');
+            return;
+          }
+
+          const budgetAmount = (income * budget / 100).toFixed(2);
+          
+          // Display results (connect to backend API here)
+          alert(`Meal Plan Generated!\n\nMonthly Income: $${income}\nFood Budget: ${budget}% ($${budgetAmount})\nDietary Preference: ${dietary}\nHousehold Size: ${household}\n\nReady to connect to backend API!`);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
