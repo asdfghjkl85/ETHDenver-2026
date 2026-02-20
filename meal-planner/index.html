@@ -173,7 +173,10 @@
   </div>
 
   <script>
-    // Frontend-only functionality
+    const API_URL = 'http://localhost:3001/api';
+    // Test user address (replace with real wallet address)
+    const USER_ADDRESS = '0x1234567890123456789012345678901234567890';
+
     document.addEventListener('DOMContentLoaded', function() {
       const budgetSlider = document.getElementById('budgetSlider');
       const budgetPercentage = document.getElementById('budgetPercentage');
@@ -188,7 +191,7 @@
 
       // Generate meal plan button functionality
       if (generateButton) {
-        generateButton.addEventListener('click', function() {
+        generateButton.addEventListener('click', async function() {
           const income = document.getElementById('monthlyIncome').value;
           const budget = budgetSlider.value;
           const dietary = document.getElementById('dietaryPreference').value;
@@ -201,11 +204,190 @@
 
           const budgetAmount = (income * budget / 100).toFixed(2);
           
-          // Display results (connect to backend API here)
-          alert(`Meal Plan Generated!\n\nMonthly Income: $${income}\nFood Budget: ${budget}% ($${budgetAmount})\nDietary Preference: ${dietary}\nHousehold Size: ${household}\n\nReady to connect to backend API!`);
+          // Show loading state
+          generateButton.disabled = true;
+          const originalText = generateButton.innerHTML;
+          generateButton.innerHTML = '<div class="flex items-center gap-2"><div class="badge-spinner">⚙️</div> Loading...</div>';
+
+          try {
+            // Map dietary preference to backend format
+            const dietMap = {
+              'No Restrictions': 'balanced',
+              'Vegetarian': 'balanced',
+              'Vegan': 'vegan',
+              'Gluten-Free': 'balanced',
+              'Keto': 'keto',
+              'Paleo': 'balanced'
+            };
+            
+            const householdMap = {
+              '1 person': 1,
+              '2 people': 2,
+              '3 people': 3,
+              '4 people': 4,
+              '5+ people': 5
+            };
+
+            const diet = dietMap[dietary] || 'balanced';
+            const householdSize = householdMap[household] || 1;
+
+            // Call backend API
+            const response = await fetch(
+              `${API_URL}/recommendations?userAddress=${USER_ADDRESS}&diet=${diet}&budget=${budgetAmount}&householdSize=${householdSize}`
+            );
+
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            if (data.success) {
+              // Display recommendations in a new section
+              displayMealPlan(data, budgetAmount, income, budget, dietary, household);
+            } else {
+              alert('Error: ' + (data.error || 'Failed to generate recommendations'));
+            }
+          } catch (error) {
+            console.error('Error:', error);
+            alert('❌ Connection Error\n\nMake sure the backend is running:\nnpm run server:dev\n\nError: ' + error.message);
+          } finally {
+            generateButton.disabled = false;
+            generateButton.innerHTML = originalText;
+          }
         });
       }
     });
+
+    function displayMealPlan(data, budgetAmount, income, budgetPercent, dietary, household) {
+      // Create or update results section
+      let resultsSection = document.getElementById('mealPlanResults');
+      if (!resultsSection) {
+        resultsSection = document.createElement('div');
+        resultsSection.id = 'mealPlanResults';
+        document.querySelector('.min-h-screen').insertBefore(
+          resultsSection,
+          document.querySelector('footer')
+        );
+      }
+
+      const recommendations = data.recommendations || [];
+      const summary = data.summary || {};
+
+      const resultsHTML = `
+        <div class="max-w-6xl mx-auto px-4 py-12">
+          <div class="mb-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2">✨ Your Personalized Meal Plan</h2>
+            <p class="text-gray-600">Based on your preferences and budget</p>
+          </div>
+
+          <!-- Summary Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200">
+              <div class="text-sm text-gray-600 mb-1">Monthly Income</div>
+              <div class="text-2xl font-bold text-blue-600">$${income}</div>
+              <div class="text-xs text-gray-500 mt-1">${budgetPercent}% for food</div>
+            </div>
+            <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl p-6 border border-emerald-200">
+              <div class="text-sm text-gray-600 mb-1">Weekly Budget</div>
+              <div class="text-2xl font-bold text-emerald-600">$${budgetAmount}</div>
+              <div class="text-xs text-gray-500 mt-1">Available to spend</div>
+            </div>
+            <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 border border-purple-200">
+              <div class="text-sm text-gray-600 mb-1">Diet Type</div>
+              <div class="text-2xl font-bold text-purple-600 capitalize">${data.recommendations[0]?.diet || 'Balanced'}</div>
+              <div class="text-xs text-gray-500 mt-1">Personalized plan</div>
+            </div>
+            <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-6 border border-orange-200">
+              <div class="text-sm text-gray-600 mb-1">Household Size</div>
+              <div class="text-2xl font-bold text-orange-600">${household}</div>
+              <div class="text-xs text-gray-500 mt-1">Servings included</div>
+            </div>
+          </div>
+
+          <!-- Recommendations -->
+          <div class="mb-8">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">🛒 Recommended Items</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              ${recommendations.map((item, idx) => `
+                <div class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-lg transition-shadow">
+                  <h4 class="font-semibold text-gray-800 mb-2">${item.item}</h4>
+                  <p class="text-sm text-gray-600 mb-3">${item.nutrition}</p>
+                  
+                  <div class="space-y-2 mb-4 text-sm">
+                    <div class="flex justify-between">
+                      <span class="text-gray-600">Unit Price:</span>
+                      <span class="font-semibold text-emerald-600">$${item.price}</span>
+                    </div>
+                    <div class="flex justify-between">
+                      <span class="text-gray-600">Qty:</span>
+                      <span class="font-semibold">${item.adjustedQty}x</span>
+                    </div>
+                    <div class="flex justify-between border-t pt-2">
+                      <span class="text-gray-800 font-semibold">Total:</span>
+                      <span class="text-emerald-600 font-bold">$${item.totalPrice.toFixed(2)}</span>
+                    </div>
+                  </div>
+
+                  <p class="text-xs text-gray-500 italic mb-3">${item.reason}</p>
+                  <p class="text-xs bg-amber-50 text-amber-700 px-2 py-1 rounded border border-amber-200">
+                    📍 ${item.provider}
+                  </p>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Summary -->
+          <div class="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl p-8 border-2 border-emerald-200">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6">📊 Plan Summary</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+              <div>
+                <p class="text-gray-600 mb-1">Total Cost</p>
+                <p class="text-4xl font-bold text-emerald-600">$${summary.totalCost?.toFixed(2) || '0.00'}</p>
+              </div>
+              <div>
+                <p class="text-gray-600 mb-1">Status</p>
+                <p class="text-2xl font-bold ${summary.withinBudget ? 'text-green-600' : 'text-red-600'}">
+                  ${summary.withinBudget ? '✅ Within Budget' : '⚠️ Over Budget'}
+                </p>
+              </div>
+            </div>
+
+            ${summary.savingsFromBudget > 0 ? `
+              <div class="bg-white rounded-lg p-4 border-2 border-green-200">
+                <p class="text-green-700 font-semibold">💰 You'll save: <span class="text-2xl">$${summary.savingsFromBudget.toFixed(2)}</span></p>
+              </div>
+            ` : ''}
+
+            <div class="mt-6 text-sm text-gray-700">
+              <p>✨ Estimated Meals: <strong>${summary.estimatedMeals}</strong></p>
+              <p>✓ All items are within your ${budgetPercent}% food budget</p>
+              <p>✓ Personalized for ${household} and ${dietary.toLowerCase()} preferences</p>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="mt-8 flex flex-wrap gap-4 justify-center">
+            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+              class="px-6 py-3 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors">
+              📝 Create Another Plan
+            </button>
+            <button onclick="downloadMealPlan()" 
+              class="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors">
+              📥 Download Plan
+            </button>
+          </div>
+        </div>
+      `;
+
+      resultsSection.innerHTML = resultsHTML;
+      resultsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function downloadMealPlan() {
+      alert('📥 Download feature coming soon!\n\nYou can take a screenshot or copy this plan.');
+    }
   </script>
 </body>
 </html>

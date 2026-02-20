@@ -17,9 +17,24 @@ const usdcAbi = JSON.parse(fs.readFileSync("./src/abi/USDC.abi.json", "utf8"));
 
 // Initialize provider
 const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
-const signer = new ethers.Wallet(process.env.AGENT_PRIVATE_KEY, provider);
-const vault = new ethers.Contract(process.env.VAULT_ADDRESS, vaultAbi, signer);
-const usdc = new ethers.Contract(process.env.USDC_ADDRESS, usdcAbi, signer);
+
+// Initialize signer (skip if private key is placeholder)
+let signer;
+if (process.env.AGENT_PRIVATE_KEY && process.env.AGENT_PRIVATE_KEY !== '0x0000000000000000000000000000000000000000000000000000000000000000') {
+  try {
+    signer = new ethers.Wallet(process.env.AGENT_PRIVATE_KEY, provider);
+    console.log('✅ Signer initialized from AGENT_PRIVATE_KEY');
+  } catch (error) {
+    console.warn('⚠️  Invalid AGENT_PRIVATE_KEY in .env - read-only mode enabled');
+    signer = null;
+  }
+} else {
+  console.warn('⚠️  AGENT_PRIVATE_KEY not set - read-only mode enabled');
+  signer = null;
+}
+
+const vault = signer ? new ethers.Contract(process.env.VAULT_ADDRESS, vaultAbi, signer) : new ethers.Contract(process.env.VAULT_ADDRESS, vaultAbi, provider);
+const usdc = signer ? new ethers.Contract(process.env.USDC_ADDRESS, usdcAbi, signer) : new ethers.Contract(process.env.USDC_ADDRESS, usdcAbi, provider);
 
 // Mock food providers database (in production, use real API)
 const foodProviders = {
